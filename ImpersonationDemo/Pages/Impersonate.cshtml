@@ -1,0 +1,44 @@
+@page
+@using System.Security.Claims
+@model ImpersonationDemo.Pages.Impersonate
+
+@{
+    var impersonatorClaim = User.FindFirstValue("_Impersonator");
+}
+
+@if (impersonatorClaim is null)
+{
+    <div>Impersonate someone</div>
+    <form method="post">
+        <div>
+            First Name: <input asp-for="FirstName">
+        </div>
+        <div>
+            Last Name: <input asp-for="LastName"/>
+        </div>
+        <div>
+            Email: <input asp-for="Email"/>
+        </div>
+        <div>
+            Roles:
+            <br/>
+            <input name="Roles[]" />
+            <br/>
+            <input name="Roles[]" />
+            <br/>
+            <input name="Roles[]" />
+            <br/>
+            <input name="Roles[]" />
+        </div>
+        <div>
+            <button type="submit">Impersonate</button>
+        </div>
+    </form>
+}
+else
+{
+    <div>Stop impersonating</div>
+    <form method="post" asp-page-handler="StopImpersonating">
+        <button type="submit">Stop</button>
+    </form>
+}
